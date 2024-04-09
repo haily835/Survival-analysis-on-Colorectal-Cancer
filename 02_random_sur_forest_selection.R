@@ -1,8 +1,10 @@
 install.packages(c("randomForestSRC"))
+install.packages(c("ggplot2"))
 library(randomForestSRC)
+library(ggplot2)
 
-train_data  <- read.csv("Documents/GitHub/SL - Final project/train_data.csv")
-test_data  <- read.csv("Documents/GitHub/SL - Final project/test_data.csv")
+train_data  <- read.csv("./train_data.csv")
+test_data  <- read.csv("./test_data.csv")
 
 # Perform feature selection using randomForestSRC
 rfsrc_model <- rfsrc.fast(Surv(OS_MONTHS, OS_STATUS) ~ ., 
@@ -37,7 +39,14 @@ top_features_impt <- sorted_importance[1:top_count]
 
 # Create a data frame for plotting
 top_features_df <- data.frame(Variable = top_features, Importance = top_features_impt)
-write.csv(top_features_df, "Documents/GitHub/SL - Final project/top_features.csv", row.names = FALSE)
+
+# Get the directory path of the current script
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# Define the file path for saving
+file_path <- file.path(script_dir, "top_features.csv")
+# Save the data frame to CSV in the current directory
+write.csv(top_features_df, file = file_path, row.names = FALSE)
+
 
 # Plot the top variables
 ggplot(top_features_df, aes(x = reorder(Variable, Importance), y = Importance)) +

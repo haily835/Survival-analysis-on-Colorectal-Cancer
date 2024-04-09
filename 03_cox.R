@@ -22,7 +22,7 @@ library(condsurv)
 
 
 # Read the Top Feature CSV file
-top_features_df <- read.csv("Documents/GitHub/SL - Final project/top_features.csv")
+top_features_df <- read.csv("./top_features.csv")
 
 # Extract the list of feature names
 top_features <- top_features_df$Variable
